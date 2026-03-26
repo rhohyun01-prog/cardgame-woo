@@ -1,26 +1,160 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: #a855f7;
+  --color-secondary: #22d3ee;
+  --color-card-dark: #121214;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #050505;
+  --foreground: #ffffff;
+  --primary: #a855f7;
+  --secondary: #22d3ee;
+  --card-bg: #111113;
+  --border-light: rgba(255, 255, 255, 0.05);
+  --accent-purple: #9333ea;
+  --accent-cyan: #0891b2;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.05), transparent 50%),
+    radial-gradient(circle at 10% 10%, rgba(34, 211, 238, 0.03), transparent 30%);
+}
+
+@layer components {
+  .mission-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-light);
+    @apply rounded-xl p-6 transition-all duration-300;
+  }
+
+  .cyber-button {
+    @apply relative overflow-hidden px-8 py-3 rounded-full font-bold uppercase tracking-widest transition-all duration-300 active:scale-95 flex items-center justify-center gap-3;
+  }
+
+  .cyber-button-purple {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+  }
+
+  .cyber-button-purple:hover {
+    background: #c084fc;
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
+  }
+
+  .cyber-button-outline {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-light);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .cyber-button-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .cyber-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-light);
+    @apply w-full px-6 py-4 rounded-lg outline-none text-white transition-all duration-300;
+  }
+
+  .cyber-input:focus {
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* Card Styles */
+.card-outer {
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.card-flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  @apply rounded-xl border border-white/5;
+}
+
+.card-front {
+  background: #18181b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-back {
+  background: white;
+  transform: rotateY(180deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10%;
+}
+
+.chip-icon {
+  width: 40%;
+  height: 40%;
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  position: relative;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%);
+}
+
+.chip-icon::after {
+  content: '';
+  position: absolute;
+  inset: 20%;
+  background: var(--primary);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+/* Typography */
+.glow-cyan {
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+}
+
+.glow-purple {
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
